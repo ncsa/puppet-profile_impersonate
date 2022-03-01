@@ -1,0 +1,31 @@
+#!/usr/bin/perl
+
+# sudo to a user with their correct shell
+# relies on the sudoers.d 
+# keep a script for logging and verification purposes using sudoreplay
+# manipulate the history file to make it seem the user has never been impersonated
+
+my $user = shift or die "Usage: $0 username\n";
+my $id = `/usr/bin/getent passwd $user` or die "No such user: $user\n";
+( my $homedir, my $sh ) = $id =~ m/.*:.*:.*:.*:(\S+):(\S+)$/;
+
+my $U = $ENV{LOGNAME} || $ENV{USER} || getpwuid($<);
+my $D = qx( date +%Y%m%d%H%M%S );
+chomp $D;
+my $HF = "$homedir/.$user.$U.$D";
+
+if( $sh =~ m/bash/ ){
+  exec "/usr/bin/sudo -i -u $user HISTTIMEFORMAT='<%F %T> ' HISTFILE=$HF HISTFILESIZE=1000";
+}
+elsif( $sh =~ m/csh/ ){
+  exec "/usr/bin/sudo -u $user /usr/bin/tcsh -c 'cp -p ~/.history ~/.history.sav; /usr/bin/tcsh -l; mv ~/.history $HF; mv ~/.history.sav ~/.history;' ";
+}
+elsif( $sh =~ m/zsh/ ){ # for the few iconoclasts
+  exec "/usr/bin/sudo -u $user /usr/bin/zsh -c 'if [ -z \$HISTFILE ]; then HISTFILE=~/.zsh_history; fi; cp -p \$HISTFILE \$HISTFILE.sav; /usr/bin/zsh -l; mv \$HISTFILE $HF; mv \$HISTFILE.sav \$HISTFILE; '";
+  #exec "/usr/bin/sudo -u $user /usr/bin/zsh -c 'cp -p $HISTFILE $HISTFILE.sav; /usr/bin/zsh -l; mv $HISTFILE $HF; mv $HISTFILE.sav $HISTFILE; '";
+  ####exec "/usr/bin/sudo -u $user /usr/bin/zsh -c 'cp -p ~/.zhistory ~/.zhistory.sav; /usr/bin/zsh -l; mv ~/.zhistory $HF; mv ~/.zhistory.sav ~/.zhistory; '";
+}
+else {
+  print "User's shell not found: $user with shell $sh\n";
+  die "Contact bw-admin@ncsa.illinois.edu\n";
+}
