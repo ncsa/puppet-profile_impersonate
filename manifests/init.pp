@@ -8,6 +8,7 @@ class profile_impersonate (
   Hash $impersonation,
   String $adminemail,
 ) {
+    $alias_array = []
     $sudo_content =  "Defaults mailto = \"$adminemail\"
       Defaults lecture = always,use_pty,requiretty,mail_always,log_host
       Defaults env_keep += \"HISTTIMEFORMAT HISTFILE HISTFILESIZE\" # bash
@@ -17,7 +18,7 @@ class profile_impersonate (
     "
 
     $impersonation.each | $impe | {
-      $group_name = $group[1]
+      $group_name = $impe[0]
       $impersonatorusers = $impe[1][impersonatorusers]
       $impersonatorgroups = $impe[1][impersonatorgroups]
       $impersonateeusers = $impe[1][impersonateeusers]
@@ -79,8 +80,10 @@ class profile_impersonate (
       $impersonatoralias = join($impersonators,',')
       $impersonateealias = join($impersonatees,',')
       #create string out of list of 
-      $user_alias = "User_Alias ${group_name}_IMPERSONATOR = $impersonatorsalias"
-      $runas_alias = "Runas_Alias ${group_name}_IMPERSONATEE = $impersonateesalias"
-        }
+      $user_alias = "User_Alias ${group_name}_IMPERSONATOR = $impersonatoralias"
+      $alias_array += [$user_alias]
+      $runas_alias = "Runas_Alias ${group_name}_IMPERSONATEE = $impersonateealias"
+      $alias_array += [$runas_alias]
+
     }
   }
