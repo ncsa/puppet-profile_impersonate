@@ -28,7 +28,7 @@ class profile_impersonate (
       $notimpersonatorusers = $impe[1][notimpersonatorusers]
       
 
-      $impersonatergroup.each |$impgroup| {
+      $impersonatergroups.each |$impgroup| {
         pam_access::entry { "Allow sudo for group ${impgroup}":
           group      => $impgroup,
           origin     => 'LOCAL',
@@ -36,7 +36,7 @@ class profile_impersonate (
           position   => '-1',
         }
       }
-      $impersonateruser.each | $impuser| {
+      $impersonaterusers.each | $impuser| {
         pam_access::entry { "Allow sudo for user ${impuser}":
           user       => $impuser,
           origin     => 'LOCAL',
@@ -44,9 +44,17 @@ class profile_impersonate (
           position   => '-1',
         }
       }
-      $notimpersonateruser.each | $impuser| {
+      $notimpersonaterusers.each | $impuser| {
         pam_access::entry { "Deny sudo for user ${impuser}":
           user       => $impuser,
+          origin     => 'LOCAL',
+          permission => '-',
+          position   => '-1',
+        }
+      }
+      $notimpersonatergroups.each | $impgroup| {
+        pam_access::entry { "Deny sudo for user ${impgroup}":
+          group       => $impgroup,
           origin     => 'LOCAL',
           permission => '-',
           position   => '-1',
