@@ -44,13 +44,12 @@ class profile_impersonate (
       $notimpersonatorusers = $impe[1][notimpersonatorusers]
     }
 
-    if (!$impersonateeusers or !$impersonateegroups) {
-      fail()
-    }
+    #if (!$impersonateeusers or !$impersonateegroups) {
+    #}
 
-    if (!$impersonatorusers or !$impersonatorgroups) {
-      fail("No Impersonter users or groups defined")
-    }
+    #if (!$impersonatorusers or !$impersonatorgroups) {
+    #  fail("No Impersonter users or groups defined")
+    #}
 
     if $impersonatorgroups {
       $impersonatorgroups.each |$impgroup| {
