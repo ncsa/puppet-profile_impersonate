@@ -55,7 +55,7 @@ class profile_impersonate (
 
       if $impersonatorgroups {
         $impersonatorgroups.each |$impgroup| {
-          pam_access::entry { "Allow sudo for group ${impgroup}"
+          pam_access::entry { "Allow sudo for group ${impgroup}":
             group      => $impgroup,
             origin     => 'LOCAL',
             permission => '+',
@@ -68,7 +68,7 @@ class profile_impersonate (
       }
       if $impersonatorusers {
         $impersonatorusers.each | $impuser| {
-          pam_access::entry { "Allow sudo for user ${impuser}"
+          pam_access::entry { "Allow sudo for user ${impuser}":
             user       => $impuser,
             origin     => 'LOCAL',
             permission => '+',
@@ -81,7 +81,7 @@ class profile_impersonate (
       }
       if $notimpersonatorusers {
         $notimpersonatorusers.each | $impuser| {
-          pam_access::entry { "Deny sudo for user ${impuser}"
+          pam_access::entry { "Deny sudo for user ${impuser}":
             user       => $impuser,
             origin     => 'LOCAL',
             permission => '-',
@@ -96,7 +96,7 @@ class profile_impersonate (
       }
       if $notimpersonatorgroups {
         $notimpersonatorgroups.each | $impgroup| {
-          pam_access::entry { "Deny sudo for groups ${impgroup}"
+          pam_access::entry { "Deny sudo for groups ${impgroup}":
             group      => $impgroup,
             origin     => 'LOCAL',
             permission => '-',
