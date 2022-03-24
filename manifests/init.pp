@@ -127,7 +127,7 @@ class profile_impersonate (
     }
     $impersonatoralias = join($impersonators,',')
     $impersonateealias = join($impersonatees,',')
-    $alias_array = $alias_array + ["User_Alias ${group_name}_IMPERSONATOR = ${impersonatoralias}"]
+    $alias_array << "User_Alias ${group_name}_IMPERSONATOR = ${impersonatoralias}"
     $alias_array = $alias_array + ["Runas_Alias ${group_name}_IMPERSONATEE = ${impersonateealias}"]
     $alias_array = $alias_array + ["${group_name}_IMPERSONATOR = (${group_name}_IMPERSONATEE)"]
     $alias_array = $alias_array + ["NOPASSWD: LOG_OUTPUT: LOG_INPUT: /bin/bash -l,/usr/bin/tcsh -l,i\\"]
