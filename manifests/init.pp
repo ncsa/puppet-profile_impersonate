@@ -45,7 +45,6 @@ class profile_impersonate (
     }
 
     if (!$impersonateeusers or !$impersonateegroups) {
-      notify("No Impersontee users or groups defined")
       fail()
     }
 
