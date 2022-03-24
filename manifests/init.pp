@@ -134,7 +134,7 @@ class profile_impersonate (
     $alias_array = $alias_array + ["${group_name}_IMPERSONATOR = (${group_name}_IMPERSONATEE)"]
     $alias_array = $alias_array + ["NOPASSWD: LOG_OUTPUT: LOG_INPUT: /bin/bash -l,/usr/bin/tcsh -l,i\\"]
     $alias_array = $alias_array + ["/bin/bash,/usr/bin/tcsh, /usr/bin/zsh,/usr/bin/zsh -l"]
-
+  }
   profile_sudo::configs { 'Impersonate':
       content  => join([$sudo_content,join($alias_array,"\n")],"\n"),
       priority => 10,
