@@ -127,11 +127,11 @@ class profile_impersonate (
     }
     $impersonatoralias = join($impersonators,',')
     $impersonateealias = join($impersonatees,',')
-    $alias_array << "User_Alias ${group_name}_IMPERSONATOR = ${impersonatoralias}"
-    $alias_array << "Runas_Alias ${group_name}_IMPERSONATEE = ${impersonateealias}"
-    $alias_array << "${group_name}_IMPERSONATOR = (${group_name}_IMPERSONATEE)\\"
-    $alias_array << "NOPASSWD: LOG_OUTPUT: LOG_INPUT: /bin/bash -l,/usr/bin/tcsh -l,i\\"
-    $alias_array << "/bin/bash,/usr/bin/tcsh, /usr/bin/zsh,/usr/bin/zsh -l"
+    $alias_array << ["User_Alias ${group_name}_IMPERSONATOR = ${impersonatoralias}"]
+    $alias_array << ["Runas_Alias ${group_name}_IMPERSONATEE = ${impersonateealias}"]
+    $alias_array << ["${group_name}_IMPERSONATOR = (${group_name}_IMPERSONATEE)\\"]
+    $alias_array << ["NOPASSWD: LOG_OUTPUT: LOG_INPUT: /bin/bash -l,/usr/bin/tcsh -l,i\\"]
+    $alias_array << ["/bin/bash,/usr/bin/tcsh, /usr/bin/zsh,/usr/bin/zsh -l"]
   }
   profile_sudo::configs { 'Impersonate':
       content  => join([$sudo_content,join($alias_array,"\n")],"\n"),
