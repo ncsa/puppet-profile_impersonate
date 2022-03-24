@@ -18,8 +18,8 @@ class profile_impersonate (
     | EOT
   $impersonators = []
   $impersonatees = []
-
-  $alias_array = [$sudo_content,]
+  $alias_array = []
+  $alias_array << ["${sudo_content}"]
   $impersonation.each | $impe | {
     $group_name = $impe[0]
     if $impe[1][impersonatorusers] {
