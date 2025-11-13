@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# add a comment
 
 # sudo to a user with their correct shell
 # relies on the sudoers.d 
