@@ -7,7 +7,7 @@ use warnings;
 #use JSON;
 
 # --- Optional Variables ---
-my $slack_webhook_url = "https://hooks.slack.com/services/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";
+my $slack_webhook_url = "https://hooks.slack.com/services/YOUR_HOOK_GOES_HERE";
 
 # --- Input Parameters ---
 my $user   = shift or die "Usage: $0 username [reason]\n";  # Required: target username
